@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'react-emotion';
 import { NameEditorMutation } from './name-editor';
+import { WorkspaceList } from './workspace-list';
 import { unit, colors } from '../styles';
 
 export default function Detail({ me }) {
@@ -9,6 +10,7 @@ export default function Detail({ me }) {
         <Title>Account</Title>
         <NameEditorMutation name={me.name} email={me.email}></NameEditorMutation>
         <Title>My Workspace</Title>
+        <WorkspaceList workSpaces={me.workSpaces} />
         <Title>Joined Workspace</Title>
     </Container>
   );

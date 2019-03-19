@@ -54,7 +54,7 @@ class NameEditor extends Component {
     }
 }
 
-export const NameEditorMutation = (props)=>{  
+export const NameEditorMutation = props => {  
    return(
        <Mutation mutation={UPDATE_NAME}>
            {(doMutate, { data })=>{

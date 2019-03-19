@@ -24,11 +24,8 @@ export default function Login() {
           }}
         >
           {(login, { loading, error }) => {
-            // this loading state will probably never show, but it's helpful to
-            // have for testing
             if (loading) return <Loading />;
             if (error) return <p>An error occurred</p>;
-
             return <LoginForm login={login} />;
           }}
         </Mutation>

@@ -1,67 +1,91 @@
-import React, { Component } from 'react';  
-import { Mutation } from "react-apollo";  
-import styled from 'react-emotion';
-import gql from 'graphql-tag';
-import {Group, GroupLabel, GroupInput, GroupText} from './styled';  
+import React, { Component, Fragment } from "react";
+import { Mutation } from "react-apollo";
+import styled from "react-emotion";
+import gql from "graphql-tag";
+import { Group, GroupLabel, GroupInput, GroupText } from "./styled";
 
 const UPDATE_NAME = gql`
-  mutation updateWorkSpaceName($name: String!) {
-    updateMyName(name: $name) {
+  mutation updateWorkSpaceName($ipt: WorkSpaceNameInput!) {
+    updateWorkSpaceName(WorkSpace: $ipt) {
       success
       message
-      me {
+      workSpace {
         id
         name
-        email
       }
     }
   }
 `;
 
 class NameEditor extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      name: props.name
+    };
+  }
 
-    constructor(props) {
-        super(props)
-        this.state = {
-            userName: props.name
+  nameChange = event => {
+    this.setState({ name: event.target.value });
+  };
+
+  saveName = () => {
+    this.props.doMutate &&
+      this.props.doMutate({
+        variables: {
+          ipt: {
+            id: this.props.id,
+            name: this.state.name
+          }
         }
-    }
+      });
+  };
 
-    nameChange = (event) => {
-        this.setState({userName: event.target.value})
-    }
-
-    saveName = () => {
-        this.props.doMutate && this.props.doMutate({
-            variables: {
-                name: this.state.userName
-            }
-        })
-    }
-
-    render() {
-        return (
-          <WorkspaceItem>
-
-          </WorkspaceItem>
-        )
-    }
-}
-
-
-export const NameEditorMutation = ({name})=>{  
-   return(
-       <Mutation mutation={UPDATE_NAME}>
-           {(doMutate, { data })=>{
-               return (<NameEditor doMutate={doMutate} name={name} />)
-           }}
-       </Mutation>
-   )
+  render() {
+    return (
+      <Group>
+        <GroupLabel>Workspace Name</GroupLabel>
+        <GroupInput
+          value={this.state.name}
+          onChange={this.nameChange}
+          onBlur={this.saveName}
+        />
+      </Group>
+    );
+  }
 }
 
 
 
-const WorkspaceItem = styled('div')({
+export const NameEditorMutation = props => {
+  return (
+    <Mutation mutation={UPDATE_NAME}>
+      {(doMutate, { data }) => {
+        return <NameEditor doMutate={doMutate} {...props} />;
+      }}
+    </Mutation>
+  );
+};
+
+
+export const MemberMutation = props => {
+  return (
+    <Mutation mutation={UPDATE_NAME}>
+      {(doMutate, { data }) => {
+        return <NameEditor doMutate={doMutate} {...props} />;
+      }}
+    </Mutation>
+  );
+};
+
+
+export const WorkspaceList = props => {
+  return props.workSpaces.map(item => (
+    <NameEditorMutation name={item.name} id={item.id} />
+  ));
+};
+
+/*const WorkspaceItem = styled('div')({
   display: 'block',
   width: '100%',
   height: 'calc(2.25rem + 2px)',
@@ -75,4 +99,4 @@ const WorkspaceItem = styled('div')({
   border: '1px solid #ced4da',
   borderRadius: '.25rem',
   transition: 'border-color .15s ease-in-out,box-shadow .15s ease-in-out'
-});
+});*/

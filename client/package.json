@@ -19,10 +19,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "run:ios-demo": "npx artillery run apollo-internal-demos/ios-workload.yml"
+    "build": "react-scripts build"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -34,9 +31,6 @@
     "not op_mini all"
   ],
   "devDependencies": {
-    "apollo": "^2.5.3",
-    "artillery": "^1.6.0-26",
-    "jest-dom": "^3.0.0",
-    "react-testing-library": "^5.4.4"
+    "apollo": "^2.5.3"
   }
 }

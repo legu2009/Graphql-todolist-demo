@@ -36,49 +36,5 @@ export const GET_LAUNCHES = gql`
 export default function Launches() {
   return (
     <div>111</div>
-    /*<Query query={GET_LAUNCHES}>
-      {({ data, loading, error, fetchMore }) => {
-        if (loading) return <Loading />;
-        if (error) return <p>ERROR</p>;
-
-        return (
-          <Fragment>
-            <Header />
-            {data.launches &&
-              data.launches.launches &&
-              data.launches.launches.map(launch => (
-                <LaunchTile key={launch.id} launch={launch} />
-              ))}
-            {data.launches &&
-              data.launches.hasMore && (
-                <Button
-                  onClick={() =>
-                    fetchMore({
-                      variables: {
-                        after: data.launches.cursor,
-                      },
-                      updateQuery: (prev, { fetchMoreResult, ...rest }) => {
-                        if (!fetchMoreResult) return prev;
-                        return {
-                          ...fetchMoreResult,
-                          launches: {
-                            ...fetchMoreResult.launches,
-                            launches: [
-                              ...prev.launches.launches,
-                              ...fetchMoreResult.launches.launches,
-                            ],
-                          },
-                        };
-                      },
-                    })
-                  }
-                >
-                  Load More
-                </Button>
-              )}
-          </Fragment>
-        );
-      }}
-    </Query>*/
   );
 }

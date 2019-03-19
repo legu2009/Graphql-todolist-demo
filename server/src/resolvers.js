@@ -8,7 +8,7 @@ module.exports = {
       const user = await dataSources.userAPI.findOrCreateUser({ email });
       if (user) return {
         success: true,
-        message: '更新成功',
+        message: '登陆成功',
         token: new Buffer(email).toString("base64")
       }; 
     },

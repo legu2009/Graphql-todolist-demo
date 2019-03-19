@@ -18,8 +18,18 @@ const typeDefs = gql`
 
   }
 
-  input MemberInput {
-    email: String!
+  type User {
+    id: ID!
+    email: String
+    name: String
+    workSpaces: [WorkSpace]!
+  }
+
+  type WorkSpace {
+    id: ID!
+    name: String!
+    owner: User!
+    members: [User]!
   }
 
   input AddTodoInput {
@@ -66,19 +76,7 @@ const typeDefs = gql`
     workSpace: WorkSpace
   }
 
-  type User {
-    id: ID!
-    email: String
-    name: String
-    workSpaces: [WorkSpace]!
-  }
-
-  type WorkSpace {
-    id: ID!
-    name: String!
-    owner: User!
-    members: [User]!
-  }
+  
   
 `;
 

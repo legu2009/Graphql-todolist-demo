@@ -19,13 +19,14 @@ export default () => injectGlobal({
   body: {
     margin: 0,
     padding: 0,
-    fontFamily: "'Source Sans Pro', sans-serif",
+    fontFamily: '"Helvetica Neue", "Helvetica", sans-serif',
     backgroundColor: colors.background,
     color: colors.text,
   },
   '#root': {
+    justifyContent: 'center',
+    alignItems: 'flex-start',
     display: 'flex',
-    flexDirection: 'column',
     minHeight: '100%',
     backgroundColor: '#f8f8f8',
     backgroundImage: `url(${space})`,
