@@ -1,4 +1,15 @@
 const SQL = require("sequelize");
+const JsonWebToken = require('JsonWebToken');
+const jwt_key = "graphql-todolist-demo";
+
+module.exports.jwt = {
+  sign(data) {
+    return JsonWebToken.sign(data, jwt_key, {expiresIn: 60*60 });
+  },
+  verify(token) {
+    return JsonWebToken.verify(token, jwt_key);
+  }
+};
 
 module.exports.createStore = () => {
   const Op = SQL.Op;
@@ -20,8 +31,7 @@ module.exports.createStore = () => {
       autoIncrement: true
     },
     name: SQL.STRING,
-    email: SQL.STRING,
-    token: SQL.STRING
+    email: SQL.STRING
   });
 
   const workSpaces = db.define("workSpace", {

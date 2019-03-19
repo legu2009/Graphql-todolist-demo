@@ -1,3 +1,6 @@
+const { jwt } = require('./utils');
+const { Authorize } = require("./decorator.js");
+
 module.exports = {
   Query: {
     me: async (_, __, { dataSources }) =>
@@ -9,58 +12,68 @@ module.exports = {
       if (user) return {
         success: true,
         message: '登陆成功',
-        token: new Buffer(email).toString("base64")
+        token: jwt.sign({ email })
+      }; 
+      return {
+        success: false,
+        message: '邮箱格式不正确',
+        token: ''
       }; 
     },
-    updateMyName: async (_, { name }, { dataSources }) => {
-      const user = await dataSources.userAPI.updateNameByUser(name);
+    updateMyName: Authorize(async (_, { name }, { dataSources }) => {
+      await dataSources.userAPI.updateNameByUser(name);
       return {
         success: true,
         message: '更新成功'
       };
-    },
-    addWorkSpace: async (_, { name }, { dataSources }) => {
+    }),
+    addWorkSpace: Authorize(async (_, { name }, { dataSources }) => {
       const workSpace = await dataSources.workSpaceAPI.findOrCreateWorkSpace({ name });
-      console.log(workSpace.dataValues);
       return {
         success: true,
         message: '更新成功',
         workSpace: workSpace.dataValues
       };
-    },
-    updateWorkSpaceName: async (_, {WorkSpace}, { dataSources }) => {
-      await dataSources.workSpaceAPI.updateWorkSpaceName(WorkSpace);
-      return {
-        success: true,
-        message: '更新成功',
-        workSpace: {id: WorkSpace.id}
-      };
-    },
-    deleteWorkSpace: async (_, {id}, { dataSources }) => {
+    }),
+    updateWorkSpaceName: Authorize(async (_, {WorkSpace}, { dataSources }) => {
+      var res = await dataSources.workSpaceAPI.updateWorkSpaceName(WorkSpace);
+      if (res[0]) {
+        return {
+          success: true,
+          message: '更新成功',
+          workSpace: {id: WorkSpace.id}
+        };
+      } else {
+        return {
+          success: false,
+          message: '更新失败',
+          workSpace: null
+        };
+      }
+    }),
+    deleteWorkSpace: Authorize(async (_, {id}, { dataSources }) => {
       await dataSources.workSpaceAPI.deleteWorkSpace(id);
       return {
         success: true,
         message: '删除成功'
       };
-    },
-
-    addWorkSpaceMembers: async (_, { id, emails }, { dataSources }) => {
+    }),
+    addWorkSpaceMembers: Authorize(async (_, { id, emails }, { dataSources }) => {
       await dataSources.workSpaceAPI.addWorkSpaceMembers(id, emails);
       return {
         success: true,
         message: '更新成功',
         workSpace: {id}
       };
-    },
-
-    deleteWorkSpaceMembers: async (_, { id, emails }, { dataSources }) => {
+    }),
+    deleteWorkSpaceMembers: Authorize(async (_, { id, emails }, { dataSources }) => {
       await dataSources.workSpaceAPI.deleteWorkSpaceMembers(id, emails);
       return {
         success: true,
         message: '更新成功',
         workSpace: {id}
       };
-    },
+    }),
 
   },
   WorkSpace: {

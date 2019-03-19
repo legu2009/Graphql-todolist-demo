@@ -37,39 +37,54 @@ class WorkSpaceAPI extends DataSource {
 
   async findOrCreateWorkSpace({ name }) {
     const userId = this.context.user.id;
-    const workSpaces = await this.store.workSpaces.findOrCreate({ where: { name, userId: userId  } });
+    const workSpaces = await this.store.workSpaces.findOrCreate({
+      where: { name, userId: userId }
+    });
     return workSpaces && workSpaces[0] ? workSpaces[0] : null;
   }
 
   async updateWorkSpaceName({ id, name }) {
     const userId = this.context.user.id;
-    return this.store.workSpaces.update({ name }, { where: { id: id, userId: userId } });
+    return this.store.workSpaces.update(
+      { name },
+      { where: { id: id, userId: userId } }
+    );
   }
 
   async deleteWorkSpace(id) {
-    this.store.workSpaces.destroy({ where: { id }});
+    return this.store.workSpaces.destroy({ where: { id } });
   }
 
   async addWorkSpaceMembers(id, emails) {
     var users = await this.deleteWorkSpaceMembers(id, emails);
-    await this.store.members.bulkCreate(users.map(item => {
-      return {
-        workSpaceId: id,
-        userId: item.dataValues.id
-      }
-    }));
+    await this.store.members.bulkCreate(
+      users.map(item => {
+        return {
+          workSpaceId: id,
+          userId: item.dataValues.id
+        };
+      })
+    );
   }
 
   async deleteWorkSpaceMembers(id, emails) {
+    var workSpace = await this.getWorkSpaceById(id);
+    var ownerId = workSpace.dataValues.userId;
     var users = await this.store.users.findAll({
       where: { email: { $in: emails } }
     });
-    await this.store.members.destroy({ where: { workSpaceId: id, userId: { $in: users.map(item => item.dataValues.id) } }});
+    await this.store.members.destroy({
+      where: {
+        workSpaceId: id,
+        userId: {
+          $in: users
+            .filter(item => item.dataValues.id !== ownerId)
+            .map(item => item.dataValues.id)
+        }
+      }
+    });
     return users;
   }
-
-  
-
 }
 
 module.exports = WorkSpaceAPI;

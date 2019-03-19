@@ -2,6 +2,7 @@ const { DataSource } = require("apollo-datasource");
 const isEmail = require("isemail");
 
 class UserAPI extends DataSource {
+
   constructor({ store }) {
     super();
     this.store = store;
@@ -20,6 +21,7 @@ class UserAPI extends DataSource {
     return users && users[0] ? users[0] : null;
   }
 
+
   async getMy() {
     const user = this.context.user;
     return await this.store.users.findOne({
@@ -28,20 +30,17 @@ class UserAPI extends DataSource {
   }
 
   async updateNameByUser(name) {
-    if (!this.context || !this.context.user) return false;
     const user = this.context.user;
     return this.store.users.update({ name }, { where: { id: user.id } });
   }
 
   async getUserById(id) {
-    if (!this.context || !this.context.user) return false;
     return await this.store.users.findOne({
       where: { id }
     });
   }
 
   async getUserByIds(ids) {
-    if (!this.context || !this.context.user) return false;
     return await this.store.users.findAll({
       where: { id: { $in: ids } }
     });

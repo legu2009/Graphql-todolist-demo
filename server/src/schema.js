@@ -32,17 +32,6 @@ const typeDefs = gql`
     members: [User]!
   }
 
-  input AddTodoInput {
-    title: String!
-    status: String!
-  }
-
-  input UpdateTodoInput {
-    id: ID!
-    title: String
-    status: String
-  }
-
   input WorkSpaceNameInput {
     id: ID!
     name: String!
@@ -76,8 +65,6 @@ const typeDefs = gql`
     workSpace: WorkSpace
   }
 
-  
-  
 `;
 
 module.exports = typeDefs;

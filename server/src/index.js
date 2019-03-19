@@ -1,9 +1,8 @@
 const { ApolloServer } = require('apollo-server');
-const isEmail = require('isemail');
 
 const typeDefs = require('./schema');
 const resolvers = require('./resolvers');
-const { createStore } = require('./utils');
+const { createStore, jwt } = require('./utils');
 
 const WorkSpaceAPI = require('./datasources/workSpace');
 const UserAPI = require('./datasources/user');
@@ -17,21 +16,35 @@ const dataSources = () => ({
 
 const context = async ({ req }) => {
   const auth = (req.headers && req.headers.authorization) || '';
-  const email = new Buffer(auth, 'base64').toString('ascii');
-
-  if (!isEmail.validate(email)) return { user: null };
-
-  const users = await store.users.findOrCreate({ where: { email } });
-  const user = users && users[0] ? users[0] : null;
-
-  return { user: { ...user.dataValues } };
+  try {
+      const data = jwt.verify(auth);
+      if (new Date()/1000 > data.exp) {
+        return  { user: null };
+      }
+      const user = await store.users.findOne({
+        where: { email: data.email }
+      });
+      if (user) {
+        return { user: { ...user.dataValues } };
+      } 
+      return  { user: null };
+  }
+  catch(err) {
+      return  { user: null };
+  }
 };
 
 const server = new ApolloServer({
   typeDefs,
   resolvers,
   dataSources,
-  context
+  context,
+  formatError: error => {
+    //console.log(error);
+    return new Error('Internal server error');
+    //delete error.extensions.exception;
+    //return error;
+  },
 });
 
 if (process.env.NODE_ENV !== 'test')

@@ -1,0 +1,83 @@
+
+//login
+mutation login($email: String!) {
+  login(email: $email) {
+    success
+    message
+    token
+  }
+}
+
+{"email": "89415119@qq.com"}
+
+
+//query
+query {
+	me {
+    name
+    email
+    workSpaces{
+      name
+      owner{
+        name
+        email
+			}
+      members{
+        name
+        email
+      }
+    }
+  }
+}
+
+{"authorization": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Ijg5NDE1MTE5QHFxLmNvbSIsImlhdCI6MTU1Mjk5NjE5MSwiZXhwIjoxNTUyOTk5NzkxfQ.nX_WXv1lyLqECWTD7debErMeCY-Bt0291L4zWQGwkV0"}
+
+//updateMyName
+ mutation updateMyName($name: String!) {
+    updateMyName(name: $name) {
+      success
+      message
+      me {
+        id
+        name
+        email
+			}
+    }
+  }
+
+  {"name": "legu2009"}
+
+//updateWorkSpaceName
+mutation updateWorkSpaceName($ipt: WorkSpaceNameInput!) {
+  updateWorkSpaceName(WorkSpace: $ipt) {
+    success
+  }
+}
+
+{
+  "ipt": {
+  	"id": "2",
+  	"name": "spm"
+  }
+}
+
+
+//addWorkSpace
+ mutation addWorkSpace($name: String!) {
+  addWorkSpace(name:$name) {
+    success
+    message
+	}
+}
+
+{"name": "wgu"}
+
+//deleteWorkSpace
+ mutation deleteWorkSpace($id: ID!) {
+  deleteWorkSpace(id:$id) {
+    success
+    message
+	}
+}
+
+{"id": "3"}
