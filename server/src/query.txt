@@ -16,7 +16,7 @@ query {
 	me {
     name
     email
-    workSpaces{
+    myWorkSpaces{
       name
       owner{
         name
@@ -27,6 +27,9 @@ query {
         email
       }
     }
+    JoinedWorkSpaces {
+      name
+		}
   }
 }
 

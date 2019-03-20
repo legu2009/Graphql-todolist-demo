@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import styled, { css } from 'react-emotion';
 import { size } from 'polished';
 
-import Button from './button';
-import space from '../assets/images/0086.jpg';
-import { ReactComponent as Logo } from '../assets/logo.svg';
-import { ReactComponent as Curve } from '../assets/curve.svg';
-import { ReactComponent as Rocket } from '../assets/rocket.svg';
-import { colors, unit } from '../styles';
+import Button from '../../components/button';
+import space from '../../assets/images/bg.jpg';
+import { ReactComponent as Logo } from '../../assets/logo.svg';
+import { ReactComponent as Curve } from '../../assets/curve.svg';
+import { ReactComponent as Rocket } from '../../assets/rocket.svg';
+import { colors, unit } from '../../styles';
 
 export default class LoginForm extends Component {
   state = { email: '' };
@@ -45,10 +45,6 @@ export default class LoginForm extends Component {
     );
   }
 }
-
-/**
- * STYLED COMPONENTS USED IN THIS FILE ARE BELOW HERE
- */
 
 const Container = styled('div')({
   display: 'flex',
