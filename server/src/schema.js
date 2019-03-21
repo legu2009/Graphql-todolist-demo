@@ -4,23 +4,18 @@ const typeDefs = gql`
     type Query {
         me: User
     }
-
-    type Mutation {
-        login(email: String): LoginResponse!
-        updateMyName(name: String!): UserResponse!
-
-        addWorkSpace(name: String!): WorkSpaceResponse!
-        updateWorkSpaceName(WorkSpace: WorkSpaceNameInput!): WorkSpaceResponse!
-        deleteWorkSpace(id: ID!): DeleteResponse!
-
-        addWorkSpaceMembers(id: ID!, emails: [String!]!): WorkSpaceResponse!
-        deleteWorkSpaceMembers(id: ID!, emails: [String!]!): WorkSpaceResponse!
-    }
-
 	type Subscription {
 		memberLeave: MemberLeaveResponse
 	}
-
+    type Mutation {
+        login(email: String): LoginResponse!
+        updateMyName(name: String!): UserResponse!
+        addWorkSpace(name: String!): WorkSpaceResponse!
+        updateWorkSpaceName(WorkSpace: WorkSpaceNameInput!): WorkSpaceResponse!
+        deleteWorkSpace(id: ID!): DeleteResponse!
+        addWorkSpaceMembers(id: ID!, emails: [String!]!): WorkSpaceResponse!
+        deleteWorkSpaceMembers(id: ID!, emails: [String!]!): WorkSpaceResponse!
+    }
     type User {
         id: ID!
         email: String
@@ -28,7 +23,6 @@ const typeDefs = gql`
         myWorkSpaces: [WorkSpace]!
 		JoinedWorkSpaces: [WorkSpace]!
     }
-
     type WorkSpace {
         id: ID!
         name: String!

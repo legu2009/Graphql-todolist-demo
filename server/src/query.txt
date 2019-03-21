@@ -8,7 +8,7 @@ mutation login($email: String!) {
   }
 }
 
-{"email": "89415119@qq.com"}
+{"email": "locker@qq.com"}
 
 
 //query
@@ -28,6 +28,7 @@ query {
       }
     }
     JoinedWorkSpaces {
+		id
       name
 		}
   }
@@ -48,7 +49,7 @@ query {
     }
   }
 
-  {"name": "legu2009"}
+  {"name": "顾伟"}
 
 //updateWorkSpaceName
 mutation updateWorkSpaceName($ipt: WorkSpaceNameInput!) {

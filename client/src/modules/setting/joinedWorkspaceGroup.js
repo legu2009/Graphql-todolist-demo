@@ -19,8 +19,8 @@ function LeaveBtn({ workSpaces, me }) {
                             },
                             update: proxy => {
                                 const data = proxy.readQuery({ query: GET_MY_PROFILE });
-                                var workSpaces = data.me.JoinedWorkSpaces;
-                                workSpaces.splice(workSpaces.findIndex(x => x.id === workSpaces.id), 1);
+                                var JoinedWorkSpaces = data.me.JoinedWorkSpaces;
+                                JoinedWorkSpaces.splice(JoinedWorkSpaces.findIndex(x => x.id === workSpaces.id), 1);
                                 proxy.writeQuery({ query: GET_MY_PROFILE, data });
                             }
                         });
