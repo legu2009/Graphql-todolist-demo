@@ -1,9 +1,9 @@
 import React from 'react'
 import styled from 'react-emotion'
 import { size } from 'polished'
-
 import { unit, colors } from '../styles'
 import avatarImg from '../assets/images/avatar.jpg'
+import LogoutButton from './logout-button'
 
 export default function Header({ me: { name, email } }) {
     return (
@@ -13,6 +13,7 @@ export default function Header({ me: { name, email } }) {
                 <h2>{name || ''}</h2>
                 <Subheading>{email}</Subheading>
             </div>
+			<LogoutButton></LogoutButton>
         </Container>
     )
 }

@@ -1,8 +1,6 @@
 import React from 'react';
 import styled from 'react-emotion';
 import { ApolloConsumer } from 'react-apollo';
-
-import { menuItemClassName } from '../components/menu-item';
 import { ReactComponent as ExitIcon } from '../assets/icons/exit.svg';
 
 export default function LogoutButton() {
@@ -23,11 +21,7 @@ export default function LogoutButton() {
   );
 }
 
-/**
- * STYLED COMPONENTS USED IN THIS FILE ARE BELOW HERE
- */
-
-const StyledButton = styled('button')(menuItemClassName, {
+const StyledButton = styled('button')({
   background: 'none',
   border: 'none',
   padding: 0,

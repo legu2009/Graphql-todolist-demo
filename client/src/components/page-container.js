@@ -41,20 +41,20 @@ function LeftMenu() {
     return (
         <Query query={GET_MY_PROFILE} fetchPolicy="network-only">
             {({ data, loading, error }) => {
-				console.log(data);
+                console.log(data)
                 if (loading) return <Loading />
                 if (error) return <p>ERROR: {error.message}</p>
                 return (
                     <Menu>
                         <MenuItem>Setting</MenuItem>
                         <MenuItem>My Workspace</MenuItem>
-						{
-							data.me.myWorkSpaces.map(item => <WorkSpacesItem>{item.name}</WorkSpacesItem>)
-						}
+                        {data.me.myWorkSpaces.map(item => (
+                            <WorkSpacesItem key={item.id}>{item.name}</WorkSpacesItem>
+                        ))}
                         <MenuItem>Join Workspace</MenuItem>
-						{
-							data.me.JoinedWorkSpaces.map(item => <WorkSpacesItem>{item.name}</WorkSpacesItem>)
-						}
+                        {data.me.JoinedWorkSpaces.map(item => (
+                            <WorkSpacesItem key={item.id}>{item.name}</WorkSpacesItem>
+                        ))}
                     </Menu>
                 )
             }}
@@ -62,32 +62,32 @@ function LeftMenu() {
     )
 }
 
-const MenuItem = styled('div')`
-    width: 100%;
-    height: 38px;
-    line-height: 38px;
-    cursor: pointer;
-    padding: 0 ${unit * 3}px;
-    transition: all ease-in-out 0.2s;
-    color: #666;
-    &:hover {
-        background: #f4f4f4;
-        color: #333;
+const MenuItem = styled('div')({
+    width: '100%',
+    height: 38,
+    lineHeight: '38px',
+    cursor: 'pointer',
+    padding: `0 ${unit * 3}px`,
+    transition: 'all ease-in-out 0.2s',
+    color: '#666',
+    ':hover': {
+        background: '#f4f4f4',
+        color: '#333'
     }
-`
+})
 
-const WorkSpacesItem = styled('div')`
-    width: 100%;
-    height: 38px;
-    line-height: 38px;
-    cursor: pointer;
-    padding: 0 ${unit * 6}px;
-    transition: all ease-in-out 0.2s;
-    color: #C89CFF;
-    &:hover {
-        background: #f4f4f4;
+const WorkSpacesItem = styled('div')({
+    width: '100%',
+    height: 38,
+    lineHeight: '38px',
+    cursor: 'pointer',
+    padding: `0 ${unit * 6}px`,
+    transition: 'all ease-in-out 0.2s',
+	color: colors.workSpaces,
+	':hover': {
+        background: '#f4f4f4',
     }
-`
+})
 
 const Menu = styled('div')({
     width: 270,

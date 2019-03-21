@@ -34,15 +34,16 @@ class Editor extends Component {
             <Group>
                 <GroupLabel>{this.props.label}</GroupLabel>
                 <GroupInput value={this.state.value} onChange={this.onChange} onBlur={this.save} />
+				{this.props.children}
             </Group>
         )
     }
 }
 
 export const EditorMutation = props => {
-    let { mutation, onCompleted, ..._props } = props
+    let { mutation, onCompleted, update, ..._props } = props
     return (
-        <Mutation mutation={mutation} onCompleted={onCompleted}>
+        <Mutation mutation={mutation} onCompleted={onCompleted} update={update}>
             {(doMutate, { data }) => {
                 return <Editor doMutate={doMutate} {..._props} />
             }}

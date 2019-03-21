@@ -14,7 +14,10 @@ const dataSources = () => ({
     userAPI: new UserAPI({ store })
 })
 
-const context = async ({ req }) => {
+const context = async ({ req, connection }) => {
+    if (connection) {
+        return connection.context
+    }
     const auth = (req.headers && req.headers.authorization) || ''
     try {
         const data = jwt.verify(auth)
@@ -35,16 +38,36 @@ const server = new ApolloServer({
     resolvers,
     dataSources,
     context,
-    formatError: error => {
+    /*formatError: error => {
         //console.log(error);
         return new Error('Internal server error')
         //delete error.extensions.exception;
         //return error;
+    },*/
+    subscriptions: {
+        onConnect: async (connectionParams, webSocket) => {
+            if (connectionParams.authToken) {
+                try {
+                    const auth = connectionParams.authToken
+                    const data = jwt.verify(auth)
+                    const user = await store.users.findOne({
+                        where: { email: data.email }
+                    })
+                    if (user) {
+                        return { user: { ...user.dataValues } }
+                    }
+                } catch (e) {}
+            }
+            throw new Error('Missing auth token!')
+        }
     }
 })
 
 if (process.env.NODE_ENV !== 'test')
-    server.listen({ port: 4000 }).then(({ url }) => console.log(`🚀 app running at ${url}`))
+    server.listen({ port: 4000 }).then(({ url, subscriptionsUrl }) => {
+        console.log(`🚀 Server ready at ${url}`)
+        console.log(`🚀 Subscriptions ready at ${subscriptionsUrl}`)
+    })
 
 module.exports = {
     dataSources,

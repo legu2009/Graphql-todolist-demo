@@ -74,10 +74,11 @@ class WorkSpaceAPI extends DataSource {
 
     async deleteWorkSpaceMembers(id, emails) {
         var workSpace = await this.getWorkSpaceById(id)
-        var ownerId = workSpace.dataValues.userId
+        var ownerId = workSpace.dataValues.userId;
         var users = await this.store.users.findAll({
             where: { email: { $in: emails } }
-        })
+		})
+		console.log(ownerId);
         await this.store.members.destroy({
             where: {
                 workSpaceId: id,

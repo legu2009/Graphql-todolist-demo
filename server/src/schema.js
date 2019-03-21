@@ -17,6 +17,10 @@ const typeDefs = gql`
         deleteWorkSpaceMembers(id: ID!, emails: [String!]!): WorkSpaceResponse!
     }
 
+	type Subscription {
+		memberLeave: MemberLeaveResponse
+	}
+
     type User {
         id: ID!
         email: String
@@ -32,11 +36,14 @@ const typeDefs = gql`
         members: [User]!
     }
 
-    
-
     interface Response {
         success: Boolean!
         message: String!
+    }
+
+	type MemberLeaveResponse {
+        id: ID!
+        emails: [String!]!
     }
 
     type DeleteResponse implements Response {

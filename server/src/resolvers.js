@@ -1,9 +1,18 @@
 const { jwt } = require('./utils')
 const { Authorize } = require('./decorator.js')
+const { PubSub } = require('apollo-server')
+
+const pubsub = new PubSub()
+const MEMBER_LEAVE = 'MEMBER_LEAVE';
 
 module.exports = {
     Query: {
         me: async (_, __, { dataSources }) => dataSources.userAPI.findOrCreateUser()
+    },
+    Subscription: {
+        memberLeave: {
+            subscribe: () => pubsub.asyncIterator([MEMBER_LEAVE])
+        }
     },
     Mutation: {
         login: async (_, { email }, { dataSources }) => {
@@ -67,7 +76,8 @@ module.exports = {
             }
         }),
         deleteWorkSpaceMembers: Authorize(async (_, { id, emails }, { dataSources }) => {
-            await dataSources.workSpaceAPI.deleteWorkSpaceMembers(id, emails)
+			pubsub.publish(MEMBER_LEAVE, { memberLeave: { id, emails } });
+            var users = await dataSources.workSpaceAPI.deleteWorkSpaceMembers(id, emails)
             return {
                 success: true,
                 message: '更新成功',
@@ -88,10 +98,10 @@ module.exports = {
     User: {
         myWorkSpaces: async (_, __, { dataSources }) => {
             return await dataSources.workSpaceAPI.getWorkSpacesByUser()
-		},
-		JoinedWorkSpaces: async (_, __, { dataSources }) => {
+        },
+        JoinedWorkSpaces: async (_, __, { dataSources }) => {
             return await dataSources.workSpaceAPI.getJoinedWorkSpacesByUser()
-		}
+        }
     },
     UserResponse: {
         me: async (_, __, { dataSources }) => {

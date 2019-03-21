@@ -8,7 +8,8 @@ const Mask = styled('div')({
     left: 0,
     bottom: 0,
     right: 0,
-    background: 'rgba(0, 0, 0, 0.4)'
+	background: 'rgba(0, 0, 0, 0.4)',
+	zIndex: 9999
 })
 const Model = styled('div')({
     minWidth: '460px',
@@ -21,22 +22,24 @@ const Model = styled('div')({
     fontSize: '15px',
     padding: '16px',
     maxWidth: '720px',
-    borderRadius: '8px'
+	borderRadius: '8px',
+	
 })
 const Cross = styled('div')({
-    float: 'right',
+	position: "absolute",
+    right: 10,
     cursor: 'pointer',
     background: `#fff url(${close}) no-repeat center center`,
     backgroundSize: '20px 20px',
     width: '16px',
-    height: '21px'
+	height: '21px',
+	zIndex: 10
 })
 
 export default function Dialog(props) {
     if (!props.isShow) return null
     return (
         <Mask>
-            
             <Model><Cross onClick={props.hide} />{props.children}</Model>
         </Mask>
     )

@@ -9,13 +9,16 @@ export const colors = {
     background: '#f7f8fa',
     grey: '#d8d9e0',
     text: '#343c5a',
-    textSecondary: '#747790'
+	textSecondary: '#747790',
+	workSpaces: '#FF9900',
+	member: '#0099FF',
+	button: '#C89CFF'
 }
 
 export const Group = styled('div')({
     marginBottom: '10px',
-	maxWidth: '400px',
-	marginLeft: '12px'
+	marginLeft: '12px',
+	position: 'relative'
 });
   
 export const GroupLabel = styled('label')({
@@ -27,7 +30,7 @@ export const GroupLabel = styled('label')({
 
 export const GroupInput = styled('input')({
     display: 'block',
-    width: '100%',
+    width: '400px',
     height: 'calc(2.25rem + 2px)',
     padding: '.375rem .75rem',
     fontSize: '1rem',
@@ -48,6 +51,30 @@ export const GroupText = styled('div')({
     marginBottom: '1rem',
     color: '#666'
 });
+
+export const GroupMember = styled('span')({
+	display: 'inline-block',
+	height: '32px',
+	lineHeight: '32px',
+	backgroundColor: colors.member,
+	color: 'white',
+	padding: '0 10px',
+	borderRadius: 5,
+	marginRight: 10
+});
+
+export const GroupWorkSpaces = styled('span')({
+	display: 'inline-block',
+	height: '32px',
+	lineHeight: '32px',
+	backgroundColor: colors.workSpaces,
+	color: 'white',
+	padding: '0 10px',
+	borderRadius: 5,
+	marginRight: 10
+});
+
+
 
 export default () =>
     injectGlobal({
@@ -96,3 +123,5 @@ export default () =>
             letterSpacing: 4
         }
     })
+
+	//C89CFF
