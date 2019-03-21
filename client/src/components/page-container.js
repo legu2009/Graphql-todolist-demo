@@ -1,9 +1,9 @@
-import React, { Fragment } from 'react'
-import styled from 'react-emotion'
-import { unit, colors } from '../styles'
-import { Query } from 'react-apollo'
-import gql from 'graphql-tag'
-import Loading from './loading'
+import React, { Fragment } from 'react';
+import styled from 'react-emotion';
+import { unit, colors } from '../styles';
+import { Query } from 'react-apollo';
+import gql from 'graphql-tag';
+import Loading from './loading';
 
 export const GET_MY_PROFILE = gql`
     query me {
@@ -26,7 +26,7 @@ export const GET_MY_PROFILE = gql`
             }
         }
     }
-`
+`;
 
 export default function PageContainer(props) {
     return (
@@ -34,16 +34,15 @@ export default function PageContainer(props) {
             <LeftMenu />
             <Container>{props.children}</Container>
         </Fragment>
-    )
+    );
 }
 
 function LeftMenu() {
     return (
         <Query query={GET_MY_PROFILE} fetchPolicy="network-only">
             {({ data, loading, error }) => {
-                console.log(data)
-                if (loading) return <Loading />
-                if (error) return <p>ERROR: {error.message}</p>
+                if (loading) return <Loading />;
+                if (error) return <p>ERROR: {error.message}</p>;
                 return (
                     <Menu>
                         <MenuItem>Setting</MenuItem>
@@ -56,10 +55,10 @@ function LeftMenu() {
                             <WorkSpacesItem key={item.id}>{item.name}</WorkSpacesItem>
                         ))}
                     </Menu>
-                )
+                );
             }}
         </Query>
-    )
+    );
 }
 
 const MenuItem = styled('div')({
@@ -74,7 +73,7 @@ const MenuItem = styled('div')({
         background: '#f4f4f4',
         color: '#333'
     }
-})
+});
 
 const WorkSpacesItem = styled('div')({
     width: '100%',
@@ -83,11 +82,11 @@ const WorkSpacesItem = styled('div')({
     cursor: 'pointer',
     padding: `0 ${unit * 6}px`,
     transition: 'all ease-in-out 0.2s',
-	color: colors.workSpaces,
-	':hover': {
-        background: '#f4f4f4',
+    color: colors.workSpaces,
+    ':hover': {
+        background: '#f4f4f4'
     }
-})
+});
 
 const Menu = styled('div')({
     width: 270,
@@ -98,7 +97,7 @@ const Menu = styled('div')({
     padding: `${unit * 3}px 0`,
     paddingBottom: unit * 5,
     marginTop: unit * 3
-})
+});
 
 const Container = styled('div')({
     display: 'flex',
@@ -106,4 +105,4 @@ const Container = styled('div')({
     width: 800,
     padding: unit * 3,
     paddingBottom: unit * 5
-})
+});

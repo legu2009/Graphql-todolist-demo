@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { split } from 'apollo-link';
 import { ApolloClient } from 'apollo-client';
 import { InMemoryCache } from 'apollo-cache-inmemory';
-import { HttpLink, createHttpLink } from 'apollo-link-http';
+import { HttpLink } from 'apollo-link-http';
 import { Query, ApolloProvider } from 'react-apollo';
 import gql from 'graphql-tag';
 import { getMainDefinition } from 'apollo-utilities';
@@ -44,7 +44,6 @@ const client = new ApolloClient({
     resolvers,
     typeDefs
 });
-console.log(client);
 
 cache.writeData({
     data: {

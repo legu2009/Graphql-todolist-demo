@@ -11,13 +11,13 @@ const spin = keyframes`
 `;
 
 const Loading = styled(Logo)(size(64), {
-  display: 'block',
-  margin: 'auto',
-  fill: colors.grey,
-  path: {
-    transformOrigin: 'center',
-    animation: `${spin} 1s linear infinite`,
-  },
+    display: 'block',
+    margin: 'auto',
+    fill: colors.grey,
+    path: {
+        transformOrigin: 'center',
+        animation: `${spin} 1s linear infinite`
+    }
 });
 
 export default Loading;

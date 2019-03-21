@@ -78,7 +78,6 @@ class WorkSpaceAPI extends DataSource {
         var users = await this.store.users.findAll({
             where: { email: { $in: emails } }
 		})
-		console.log(ownerId);
         await this.store.members.destroy({
             where: {
                 workSpaceId: id,

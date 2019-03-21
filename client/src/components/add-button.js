@@ -1,10 +1,10 @@
-import newIcon from '../assets/images/new.png'
+import icon from '../assets/images/new.png'
 import styled from 'react-emotion'
 import React from 'react';
 
 const StyledButton = styled('div')({
 	display: 'inline-block',
-	backgroundImage: `url(${newIcon})`,
+	backgroundImage: `url(${icon})`,
 	backgroundSize: '100%',
 	height: 22,
 	width: 22,

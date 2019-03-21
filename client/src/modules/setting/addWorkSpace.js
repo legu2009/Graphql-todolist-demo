@@ -1,9 +1,9 @@
-import React, { Fragment, Component } from 'react'
-import gql from 'graphql-tag'
-import { EditorMutation } from '../../components/editor-mutation'
-import AddButton from '../../components/add-button'
-import Dialog from '../../components/dialog'
-import { GET_MY_PROFILE } from '../../components/page-container'
+import React, { Fragment, Component } from 'react';
+import gql from 'graphql-tag';
+import { EditorMutation } from '../../components/editor-mutation';
+import AddButton from '../../components/add-button';
+import Dialog from '../../components/dialog';
+import { GET_MY_PROFILE } from '../../components/page-container';
 
 const ADD_WORKSPACE = gql`
     mutation addWorkSpace($value: String!) {
@@ -16,24 +16,24 @@ const ADD_WORKSPACE = gql`
             }
         }
     }
-`
+`;
 
 export default class AddWorkSpace extends Component {
     constructor(props) {
-        super(props)
+        super(props);
         this.state = {
             isShow: false,
             name: ''
-        }
+        };
     }
 
     showAddDlg = () => {
-        this.setState({ isShow: true, name: '' })
-    }
+        this.setState({ isShow: true, name: '' });
+    };
 
     hide = () => {
-        this.setState({ isShow: false, name: '' })
-    }
+        this.setState({ isShow: false, name: '' });
+    };
 
     render() {
         return (
@@ -45,7 +45,7 @@ export default class AddWorkSpace extends Component {
                         mutation={ADD_WORKSPACE}
                         label="WorkspaceName"
                         onCompleted={res => {
-                            this.setState({ isShow: false, name: '' })
+                            this.setState({ isShow: false, name: '' });
                         }}
                         update={(
                             proxy,
@@ -55,14 +55,14 @@ export default class AddWorkSpace extends Component {
                                 }
                             }
                         ) => {
-                            const data = proxy.readQuery({ query: GET_MY_PROFILE })
-                            workSpace.members = []
-                            data.me.myWorkSpaces.push(workSpace)
-                            proxy.writeQuery({ query: GET_MY_PROFILE, data })
+                            const data = proxy.readQuery({ query: GET_MY_PROFILE });
+                            workSpace.members = [];
+                            data.me.myWorkSpaces.push(workSpace);
+                            proxy.writeQuery({ query: GET_MY_PROFILE, data });
                         }}
                     />
                 </Dialog>
             </Fragment>
-        )
+        );
     }
 }

@@ -1,7 +1,7 @@
-import styled, { injectGlobal } from 'react-emotion'
-import space from './assets/images/bg.jpg'
+import styled, { injectGlobal } from 'react-emotion';
+import space from './assets/images/bg.jpg';
 
-export const unit = 8
+export const unit = 8;
 export const colors = {
     primary: '#220a82',
     secondary: '#14cbc4',
@@ -9,18 +9,18 @@ export const colors = {
     background: '#f7f8fa',
     grey: '#d8d9e0',
     text: '#343c5a',
-	textSecondary: '#747790',
-	workSpaces: '#FF9900',
-	member: '#0099FF',
-	button: '#C89CFF'
-}
+    textSecondary: '#747790',
+    workSpaces: '#FF9900',
+    member: '#0099FF',
+    button: '#C89CFF'
+};
 
 export const Group = styled('div')({
     marginBottom: '10px',
-	marginLeft: '12px',
-	position: 'relative'
+    marginLeft: '12px',
+    position: 'relative'
 });
-  
+
 export const GroupLabel = styled('label')({
     marginBottom: '3px',
     lineHeight: '22px',
@@ -53,28 +53,26 @@ export const GroupText = styled('div')({
 });
 
 export const GroupMember = styled('span')({
-	display: 'inline-block',
-	height: '32px',
-	lineHeight: '32px',
-	backgroundColor: colors.member,
-	color: 'white',
-	padding: '0 10px',
-	borderRadius: 5,
-	marginRight: 10
+    display: 'inline-block',
+    height: '32px',
+    lineHeight: '32px',
+    backgroundColor: colors.member,
+    color: 'white',
+    padding: '0 10px',
+    borderRadius: 5,
+    marginRight: 10
 });
 
 export const GroupWorkSpaces = styled('span')({
-	display: 'inline-block',
-	height: '32px',
-	lineHeight: '32px',
-	backgroundColor: colors.workSpaces,
-	color: 'white',
-	padding: '0 10px',
-	borderRadius: 5,
-	marginRight: 10
+    display: 'inline-block',
+    height: '32px',
+    lineHeight: '32px',
+    backgroundColor: colors.workSpaces,
+    color: 'white',
+    padding: '0 10px',
+    borderRadius: 5,
+    marginRight: 10
 });
-
-
 
 export default () =>
     injectGlobal({
@@ -122,6 +120,6 @@ export default () =>
             textTransform: 'uppercase',
             letterSpacing: 4
         }
-    })
+    });
 
-	//C89CFF
+//C89CFF

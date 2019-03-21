@@ -1,8 +1,8 @@
-import React, { Fragment, Component } from 'react'
-import gql from 'graphql-tag'
-import { EditorMutation } from '../../components/editor-mutation'
-import { unit, Group, GroupLabel, GroupText } from '../../styles'
-import styled from 'react-emotion'
+import React, { Fragment } from 'react';
+import gql from 'graphql-tag';
+import { EditorMutation } from '../../components/editor-mutation';
+import { Group, GroupLabel, GroupText } from '../../styles';
+import styled from 'react-emotion';
 
 const UPDATE_USERNAME = gql`
     mutation updateMyName($value: String!) {
@@ -16,7 +16,7 @@ const UPDATE_USERNAME = gql`
             }
         }
     }
-`
+`;
 
 export default function AccountGroup({ me }) {
     return (
@@ -28,7 +28,7 @@ export default function AccountGroup({ me }) {
                 <GroupText>{me.email}</GroupText>
             </Group>
         </Fragment>
-    )
+    );
 }
 
 export const Title = styled('div')({
@@ -36,4 +36,4 @@ export const Title = styled('div')({
     fontSize: '20px',
     lineHeight: '28px',
     marginBottom: '10px'
-})
+});

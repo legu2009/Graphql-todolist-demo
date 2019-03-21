@@ -1,28 +1,30 @@
 import React from 'react';
 import styled from 'react-emotion';
 import { ApolloConsumer } from 'react-apollo';
-import { ReactComponent as ExitIcon } from '../assets/icons/exit.svg';
+import icon from '../assets/images/out.png';
 
 export default function LogoutButton() {
-  return (
-    <ApolloConsumer>
-      {client => (
-        <StyledButton
-          onClick={() => {
-            client.writeData({ data: { isLoggedIn: false } });
-            localStorage.clear();
-          }}
-        >
-          <ExitIcon />
-          Logout
-        </StyledButton>
-      )}
-    </ApolloConsumer>
-  );
+    return (
+        <ApolloConsumer>
+            {client => (
+                <StyledButton
+                    onClick={() => {
+                        client.writeData({ data: { isLoggedIn: false } });
+                        localStorage.clear();
+                    }}
+                />
+            )}
+        </ApolloConsumer>
+    );
 }
 
-const StyledButton = styled('button')({
-  background: 'none',
-  border: 'none',
-  padding: 0,
+const StyledButton = styled('div')({
+    backgroundImage: `url(${icon})`,
+    backgroundSize: '100%',
+    height: 50,
+    width: 50,
+    marginLeft: 10,
+    position: "absolute",
+    right: 50,
+    cursor: 'pointer'
 });

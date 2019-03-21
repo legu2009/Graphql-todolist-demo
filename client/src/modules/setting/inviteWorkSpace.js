@@ -1,9 +1,8 @@
-import React, { Fragment, Component } from 'react'
-import gql from 'graphql-tag'
-import { EditorMutation } from '../../components/editor-mutation'
-import InviteButton from '../../components/invite-button'
-import Dialog from '../../components/dialog'
-import { GET_MY_PROFILE } from '../../components/page-container'
+import React, { Fragment, Component } from 'react';
+import gql from 'graphql-tag';
+import { EditorMutation } from '../../components/editor-mutation';
+import InviteButton from '../../components/invite-button';
+import Dialog from '../../components/dialog';
 
 const INVITE_WORKSPACE = gql`
     mutation addWorkSpaceMembers($id: ID!, $value: [String!]!) {
@@ -21,24 +20,24 @@ const INVITE_WORKSPACE = gql`
             }
         }
     }
-`
+`;
 
 export default class InviteWorkSpace extends Component {
     constructor(props) {
-        super(props)
+        super(props);
         this.state = {
             isShow: false,
             name: ''
-        }
+        };
     }
 
     showAddDlg = () => {
-        this.setState({ isShow: true, name: '' })
-    }
+        this.setState({ isShow: true, name: '' });
+    };
 
     hide = () => {
-        this.setState({ isShow: false, name: '' })
-    }
+        this.setState({ isShow: false, name: '' });
+    };
 
     render() {
         return (
@@ -50,7 +49,7 @@ export default class InviteWorkSpace extends Component {
                         mutation={INVITE_WORKSPACE}
                         label="email"
                         onCompleted={res => {
-                            this.setState({ isShow: false, name: '' })
+                            this.setState({ isShow: false, name: '' });
                         }}
                         getVariables={value => ({
                             id: this.props.workSpaceId,
@@ -59,6 +58,6 @@ export default class InviteWorkSpace extends Component {
                     />
                 </Dialog>
             </Fragment>
-        )
+        );
     }
 }

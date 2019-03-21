@@ -1,9 +1,9 @@
-import React from 'react'
-import styled from 'react-emotion'
-import { unit } from '../../styles'
-import AccountGroup from './account'
-import MyWorkspaceGroup from './myWorkspaceGroup'
-import JoinedWorkspaceGroup from './joinedWorkspaceGroup'
+import React from 'react';
+import styled from 'react-emotion';
+import { unit } from '../../styles';
+import AccountGroup from './account';
+import MyWorkspaceGroup from './myWorkspaceGroup';
+import JoinedWorkspaceGroup from './joinedWorkspaceGroup';
 
 export default function Detail({ me }) {
     return (
@@ -12,7 +12,7 @@ export default function Detail({ me }) {
             <MyWorkspaceGroup workSpaces={me.myWorkSpaces} />
             <JoinedWorkspaceGroup workSpaces={me.JoinedWorkSpaces} me={me} />
         </Container>
-    )
+    );
 }
 
 const Container = styled('div')({
@@ -21,4 +21,4 @@ const Container = styled('div')({
     background: '#ffffff',
     padding: '10px',
     marginBottom: unit * 4.5
-})
+});

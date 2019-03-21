@@ -1,14 +1,13 @@
-import React, { Fragment } from 'react'
-import gql from 'graphql-tag'
-import { EditorMutation } from '../../components/editor-mutation'
-import { MemberMutation } from '../../components/member-mutation'
-import DelButton from '../../components/del-button'
-import { GET_MY_PROFILE } from '../../components/page-container'
-import { ApolloConsumer } from 'react-apollo'
-import { Title } from './account'
-import AddWorkSpace from './addWorkSpace'
-import InviteWorkSpace from './inviteWorkSpace'
-
+import React, { Fragment } from 'react';
+import gql from 'graphql-tag';
+import { EditorMutation } from '../../components/editor-mutation';
+import { MemberMutation } from '../../components/member-mutation';
+import DelButton from '../../components/del-button';
+import { GET_MY_PROFILE } from '../../components/page-container';
+import { ApolloConsumer } from 'react-apollo';
+import { Title } from './account';
+import AddWorkSpace from './addWorkSpace';
+import InviteWorkSpace from './inviteWorkSpace';
 
 const UPDATE_WS_NAME = gql`
     mutation updateWorkSpaceName($ipt: WorkSpaceNameInput!) {
@@ -21,7 +20,7 @@ const UPDATE_WS_NAME = gql`
             }
         }
     }
-`
+`;
 
 const DELETE_WORKSPACE = gql`
     mutation deleteWorkSpace($id: ID!) {
@@ -30,8 +29,7 @@ const DELETE_WORKSPACE = gql`
             message
         }
     }
-`
-
+`;
 
 export const REMOVE_WORKSPACE_MEMBER = gql`
     mutation deleteWorkSpaceMembers($id: ID!, $value: [String!]!) {
@@ -49,7 +47,7 @@ export const REMOVE_WORKSPACE_MEMBER = gql`
             }
         }
     }
-`
+`;
 
 export default function MyWorkspaceGroup({ workSpaces }) {
     return (
@@ -71,7 +69,7 @@ export default function MyWorkspaceGroup({ workSpaces }) {
                                     id: item.id,
                                     name: value
                                 }
-                            }
+                            };
                         }}
                     >
                         <ApolloConsumer>
@@ -84,12 +82,12 @@ export default function MyWorkspaceGroup({ workSpaces }) {
                                                 id: item.id
                                             },
                                             update: proxy => {
-                                                const data = proxy.readQuery({ query: GET_MY_PROFILE })
-                                                var workSpaces = data.me.myWorkSpaces
-                                                workSpaces.splice(workSpaces.findIndex(x => x.id === item.id), 1)
-                                                proxy.writeQuery({ query: GET_MY_PROFILE, data })
+                                                const data = proxy.readQuery({ query: GET_MY_PROFILE });
+                                                var workSpaces = data.me.myWorkSpaces;
+                                                workSpaces.splice(workSpaces.findIndex(x => x.id === item.id), 1);
+                                                proxy.writeQuery({ query: GET_MY_PROFILE, data });
                                             }
-                                        })
+                                        });
                                     }}
                                 />
                             )}
@@ -107,5 +105,5 @@ export default function MyWorkspaceGroup({ workSpaces }) {
                 </Fragment>
             ))}
         </Fragment>
-    )
+    );
 }

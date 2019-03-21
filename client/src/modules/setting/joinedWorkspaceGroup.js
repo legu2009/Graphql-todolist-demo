@@ -1,6 +1,6 @@
-import React, { Fragment, Component } from 'react';
+import React, { Fragment } from 'react';
 import { Title } from './account';
-import { unit, Group, GroupLabel, GroupWorkSpaces } from '../../styles';
+import { Group, GroupLabel, GroupWorkSpaces } from '../../styles';
 import { REMOVE_WORKSPACE_MEMBER } from './myWorkspaceGroup';
 import { ApolloConsumer } from 'react-apollo';
 import { GET_MY_PROFILE } from '../../components/page-container';
