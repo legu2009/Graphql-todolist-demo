@@ -85,3 +85,13 @@ mutation updateWorkSpaceName($ipt: WorkSpaceNameInput!) {
 }
 
 {"id": "3"}
+
+
+subscription {
+  memberLeave {
+  	id
+    emails
+	}
+}
+
+{"authToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImxvY2tlckBxcS5jb20iLCJpYXQiOjE1NTMxNDcyNDB9.9UrGD0hIHbg_L50Sn7sTZ13gkoV6UUx0LuzibsMKrlM"}
