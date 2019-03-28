@@ -2,19 +2,10 @@ const fetch = require('node-fetch');
 const { Binding } = require('graphql-binding');
 const { HttpLink } = require('apollo-link-http');
 const { makeRemoteExecutableSchema } = require('graphql-tools');
-//const { typeDefsStr } = require('./schema');
+const { typeDefsStr } = require('./schema');
 const endpoint = `http://localhost:4000`;
 const link = new HttpLink({ uri: endpoint, fetch });
-const typeDefsStr = `
-type Mutation {
-	login(email: String): LoginResponse!
-}
-type LoginResponse {
-	success: Boolean!
-	message: String!
-	token: String!
-}
-`;
+
 const schema = makeRemoteExecutableSchema({
     link,
     schema: typeDefsStr

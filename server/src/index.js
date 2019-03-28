@@ -1,37 +1,38 @@
-const { ApolloServer } = require('apollo-server')
+require('@babel/register');
 
-const { typeDefs } = require('./schema')
-const resolvers = require('./resolvers')
-const { createStore, jwt } = require('./utils')
+const { ApolloServer } = require('apollo-server');
+const { typeDefs } = require('./schema');
+const resolvers = require('./resolvers');
+const { createStore, jwt } = require('./utils');
 
-const WorkSpaceAPI = require('./datasources/workSpace')
-const UserAPI = require('./datasources/user')
+const WorkSpaceAPI = require('./datasources/workSpace');
+const UserAPI = require('./datasources/user');
 
-const store = createStore()
+const store = createStore();
 
 const dataSources = () => ({
     workSpaceAPI: new WorkSpaceAPI({ store }),
     userAPI: new UserAPI({ store })
-})
+});
 
 const context = async ({ req, connection }) => {
     if (connection) {
-        return connection.context
+        return connection.context;
     }
-    const auth = (req.headers && req.headers.authorization) || ''
+    const auth = (req.headers && req.headers.authorization) || '';
     try {
-        const data = jwt.verify(auth)
+        const data = jwt.verify(auth);
         const user = await store.users.findOne({
             where: { email: data.email }
-        })
+        });
         if (user) {
-            return { user: { ...user.dataValues } }
+            return { user };
         }
-        return { user: null }
+        return { user: null };
     } catch (err) {
-        return { user: null }
+        return { user: null };
     }
-}
+};
 
 const server = new ApolloServer({
     typeDefs,
@@ -48,26 +49,26 @@ const server = new ApolloServer({
         onConnect: async (connectionParams, webSocket) => {
             if (connectionParams.authToken) {
                 try {
-                    const auth = connectionParams.authToken
-                    const data = jwt.verify(auth)
+                    const auth = connectionParams.authToken;
+                    const data = jwt.verify(auth);
                     const user = await store.users.findOne({
                         where: { email: data.email }
-                    })
+                    });
                     if (user) {
-                        return { user: { ...user.dataValues } }
+                        return { user: { ...user.dataValues } };
                     }
                 } catch (e) {}
             }
-            throw new Error('Missing auth token!')
+            throw new Error('Missing auth token!');
         }
     }
-})
+});
 
 if (process.env.NODE_ENV !== 'test')
     server.listen({ port: 4000 }).then(({ url, subscriptionsUrl }) => {
-        console.log(`🚀 Server ready at ${url}`)
-        console.log(`🚀 Subscriptions ready at ${subscriptionsUrl}`)
-    })
+        console.log(`🚀 Server ready at ${url}`);
+        console.log(`🚀 Subscriptions ready at ${subscriptionsUrl}`);
+    });
 
 module.exports = {
     dataSources,
@@ -77,4 +78,4 @@ module.exports = {
     ApolloServer,
     store,
     server
-}
+};

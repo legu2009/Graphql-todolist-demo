@@ -1,5 +1,4 @@
 const { DataSource } = require('apollo-datasource');
-
 class WorkSpaceAPI extends DataSource {
     constructor({ store }) {
         super();
@@ -16,27 +15,30 @@ class WorkSpaceAPI extends DataSource {
         });
     }
 
-    async getMemberIdsById(workSpaceId) {
-        return await this.store.members.findAll({
-            where: { workSpaceId }
-        });
+    async getMembersById(workSpaceId) {
+        return await this.store.members
+            .findAll({
+                include: [this.store.users],
+                where: { workSpaceId }
+            })
+            .map(item => item.user);
     }
 
-    async getWorkSpacesByUser(id) {
-        const userId = id || this.context.user.id;
+    async getWorkSpacesByUser(userId) {
         return await this.store.workSpaces.findAll({
             where: { userId: userId }
         });
     }
 
-    async getJoinedWorkSpacesByUser(id) {
-        const userId = id || this.context.user.id;
-        const workSpaceIds = await this.store.members
-            .findAll({ where: { userId } })
-            .map(item => item.dataValues.workSpaceId);
-        return await this.store.workSpaces.findAll({
-            where: { id: { $in: workSpaceIds } }
-        });
+    async getJoinedWorkSpacesByUser(userId) {
+        return await this.store.members
+            .findAll({
+                where: { userId },
+                include: [this.store.workSpaces]
+            })
+            .map(member => {
+                return member.workSpace;
+            });
     }
 
     async getWorkSpaceById(id) {
@@ -59,33 +61,57 @@ class WorkSpaceAPI extends DataSource {
     }
 
     async deleteWorkSpace(id) {
-        await this.store.workSpaces.destroy({ where: { id } });
-        await this.store.members.destroy({ where: { workSpaceId: id } });
+        await Promise.all([
+            this.store.workSpaces.destroy({ where: { id } }),
+            this.store.members.destroy({ where: { workSpaceId: id } })
+        ]);
     }
 
     async addWorkSpaceMembers(id, emails) {
-        var users = await this.deleteWorkSpaceMembers(id, emails);
-        await this.store.members.bulkCreate(
-            users.map(item => {
-                return {
-                    workSpaceId: id,
-                    userId: item.dataValues.id
-                };
-            })
-        );
+        const store = this.store;
+        const workSpaces = await store.workSpaces.findOne({
+            include: [
+                {
+                    model: store.members,
+                    include: [
+                        {
+                            model: store.users,
+                            where: { email: { $in: emails } }
+                        }
+                    ]
+                }
+            ],
+            where: { id }
+        });
+        var users = await store.users.findAll({
+            where: { email: { $in: emails } }
+        });
+        const map = {};
+        workSpaces.members.forEach(member => {
+            map[member.user.id] = 1;
+        });
+        users = users.filter(item => item.id !== workSpaces.userId && !map[item.id]);
+        if (users.length > 0) {
+            await this.store.members.bulkCreate(
+                users.map(item => {
+                    return {
+                        workSpaceId: id,
+                        userId: item.id
+                    };
+                })
+            );
+        }
     }
 
     async deleteWorkSpaceMembers(id, emails) {
-        var workSpace = await this.getWorkSpaceById(id);
-        var ownerId = workSpace.dataValues.userId;
-        var users = await this.store.users.findAll({
+        const users = await this.store.users.findAll({
             where: { email: { $in: emails } }
         });
         await this.store.members.destroy({
             where: {
                 workSpaceId: id,
                 userId: {
-                    $in: users.filter(item => item.dataValues.id !== ownerId).map(item => item.dataValues.id)
+                    $in: users.map(item => item.id)
                 }
             }
         });

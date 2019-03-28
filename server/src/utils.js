@@ -1,58 +1,95 @@
-const SQL = require('sequelize')
-const JsonWebToken = require('JsonWebToken')
-const jwt_key = 'graphql-todolist-demo'
+const sequelize = require('sequelize');
+const JsonWebToken = require('JsonWebToken');
+const jwt_key = 'graphql-todolist-demo';
 
 module.exports.jwt = {
     sign(data) {
-        return JsonWebToken.sign(data, jwt_key)
+        return JsonWebToken.sign(data, jwt_key, { expiresIn: '1d' });
     },
     verify(token) {
-        return JsonWebToken.verify(token, jwt_key)
+        return JsonWebToken.verify(token, jwt_key);
     }
-}
+};
 
 module.exports.createStore = () => {
-    const Op = SQL.Op
+    const Op = sequelize.Op;
     const operatorsAliases = {
         $in: Op.in
-    }
+    };
 
-    const db = new SQL('database', 'username', 'password', {
+    const db = new sequelize('database', 'username', 'password', {
         dialect: 'sqlite',
         storage: './store.sqlite',
         operatorsAliases,
         logging: true
-    })
+    });
 
     const users = db.define('users', {
         id: {
-            type: SQL.INTEGER,
+            type: sequelize.INTEGER,
             primaryKey: true,
             autoIncrement: true
         },
-        name: SQL.STRING,
-        email: SQL.STRING
-    })
+        name: sequelize.STRING,
+        email: sequelize.STRING
+    });
 
     const workSpaces = db.define('workSpace', {
         id: {
-            type: SQL.INTEGER,
+            type: sequelize.INTEGER,
             primaryKey: true,
             autoIncrement: true
         },
-        name: SQL.STRING,
-        userId: SQL.INTEGER
-    })
+        name: sequelize.STRING,
+        userId: {
+            type: sequelize.INTEGER
+        }
+    });
 
     const members = db.define('member', {
-        id: {
-            type: SQL.INTEGER,
-            primaryKey: true,
-            autoIncrement: true
+        workSpaceId: {
+            type: sequelize.INTEGER,
+            primaryKey: true
         },
-        workSpaceId: SQL.STRING,
-        userId: SQL.INTEGER
-    })
+        userId: {
+            type: sequelize.INTEGER,
+            primaryKey: true
+        }
+    });
 
-    return { users, workSpaces, members }
-}
+    users.hasMany(workSpaces);
+    workSpaces.belongsTo(users, { foreignKey: 'userId' });
+    workSpaces.hasMany(members, { foreignKey: 'workSpaceId', targetKey: 'id' });
+
+    members.belongsTo(users, { foreignKey: 'userId' });
+    members.belongsTo(workSpaces, { foreignKey: 'workSpaceId', targetKey: 'id' });
+
+    members.removeAttribute('id');
+
+    return { users, workSpaces, members };
+};
+
+/*
+const { createStore, jwt } = require('./utils');
+const store = createStore();
+
+store.users.findAll({ include: [store.workSpaces] }).then(data => {
+    console.log(JSON.stringify(data));
+});
+
+store.workSpaces.findAll({ include: [store.users] }).then(data => {
+    console.log(JSON.stringify(data));
+});
+
+store.workSpaces.findAll({ include: [store.members] }).then(data => {
+    console.log(JSON.stringify(data));
+});
+
+store.workSpaces
+    .findAll({
+        include: [{ model: store.members, include: [store.users] }, store.users]
+    })
+    .then(data => {
+        console.log(JSON.stringify(data));
+    });
+*/

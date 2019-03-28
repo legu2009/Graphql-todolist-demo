@@ -6,6 +6,7 @@ import Detail from './detail.js';
 import { GET_MY_PROFILE } from '../../components/page-container';
 import { Subscription } from 'react-apollo';
 import gql from 'graphql-tag';
+import { Logout } from '../../components/logout-button';
 
 const MEMBER_LEAVE = gql`
     subscription memberLeave {
@@ -23,6 +24,9 @@ export default function Setting() {
                 {({ data, loading, error }) => {
                     if (loading) return <Loading />;
                     if (error) return <p>ERROR: {error.message}</p>;
+                    if (!data.me) {
+                        return <Logout />;
+                    }
                     return (
                         <Fragment>
                             <Header me={data.me} />

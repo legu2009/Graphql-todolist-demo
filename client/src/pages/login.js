@@ -21,7 +21,6 @@ export default function Login() {
                     onCompleted={({ login: { token } }) => {
                         localStorage.setItem('token', token);
                         client.writeData({ data: { isLoggedIn: true } });
-                        window.location.reload();
                     }}
                 >
                     {(login, { loading, error }) => {

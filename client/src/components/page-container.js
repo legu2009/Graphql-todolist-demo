@@ -4,6 +4,7 @@ import { unit, colors } from '../styles';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import Loading from './loading';
+import { Logout } from './logout-button';
 
 export const GET_MY_PROFILE = gql`
     query me {
@@ -43,6 +44,9 @@ function LeftMenu() {
             {({ data, loading, error }) => {
                 if (loading) return <Loading />;
                 if (error) return <p>ERROR: {error.message}</p>;
+				if (!data.me) {
+					return <Logout></Logout>;
+				}
                 return (
                     <Menu>
                         <MenuItem>Setting</MenuItem>

@@ -24,7 +24,19 @@ const StyledButton = styled('div')({
     height: 50,
     width: 50,
     marginLeft: 10,
-    position: "absolute",
+    position: 'absolute',
     right: 50,
     cursor: 'pointer'
 });
+
+export const Logout = props => {
+    return (
+        <ApolloConsumer>
+            {client => {
+                client.writeData({ data: { isLoggedIn: false } });
+                localStorage.clear();
+				return null;
+            }}
+        </ApolloConsumer>
+    );
+};

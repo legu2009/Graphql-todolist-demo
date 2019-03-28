@@ -13,7 +13,7 @@ export default class LoginForm extends Component {
 
     onChange = event => {
         const email = event.target.value;
-        this.setState(s => ({ email }));
+        this.setState(() => ({ email }));
     };
 
     onSubmit = event => {
